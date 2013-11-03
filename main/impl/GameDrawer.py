@@ -14,5 +14,5 @@ class GameDrawer(Drawable):
 
         for x in range(0, self.game.size[0]):
             for y in range(0, self.game.size[1]):
-                self.screen().blit(imageResources.getBackground(), [x * SQUARE_SIZE, y * SQUARE_SIZE])
+                self.screen.blit(imageResources.getBackground(), [x * SQUARE_SIZE, y * SQUARE_SIZE])
 

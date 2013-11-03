@@ -23,11 +23,11 @@ class UnitDrawer(Drawable):
         pos = [0, 0]
 
         # # MZI ## ramka
-        self.screen().blit(imageResources.getPlayerBorder(self._unit.owner), pos)
+        self.screen.blit(imageResources.getPlayerBorder(self._unit.owner), pos)
 
         # # MZI ## ikonka
-        self.screen().blit(imageResources.getUnitIcon(self._unit.image), pos)
+        self.screen.blit(imageResources.getUnitIcon(self._unit.image), pos)
 
         # # MZI ## akcje
-        self.screen().blit(imageResources.getActionDot(1, "g" if self._unit.actions > 0 else "gray"), pos)
-        self.screen().blit(imageResources.getActionDot(2, "g" if self._unit.actions > 1 else "gray"), pos)
+        self.screen.blit(imageResources.getActionDot(1, "g" if self._unit.actions > 0 else "gray"), pos)
+        self.screen.blit(imageResources.getActionDot(2, "g" if self._unit.actions > 1 else "gray"), pos)

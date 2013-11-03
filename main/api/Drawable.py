@@ -30,5 +30,5 @@ class Drawable():
             blitPos = [x[0] * SQUARE_SIZE, x[1] * SQUARE_SIZE]
         else:
             blitPos = [x * SQUARE_SIZE, y * SQUARE_SIZE]
-        self.screen().blit(image, blitPos)
+        self.screen.blit(image, blitPos)
 

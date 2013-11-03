@@ -12,7 +12,6 @@ class Game(object):
     def __init__(self):
         pygame.init()
 
-        # # MZI ## FPSy sa dobre
         self.fpsClock = pygame.time.Clock()
         self.__drawers = self.__tickers = None
         self.__size = size = 21, 11
@@ -41,6 +40,7 @@ class Game(object):
         self.checkPriorities(tickers)
         self.__tickers = tickers
 
+    @property
     def screen(self):
         return self.__screen
 
@@ -83,9 +83,9 @@ class Game(object):
             currentPriority += 1
 
     @staticmethod
-    def checkPriorities(list):
+    def checkPriorities(inputList):
         priorities = {}
-        for element in list:
+        for element in inputList:
             if  priorities.has_key(element.priority):
                 raise Exception("Priorities cannot be the same in {0} and {1} due to deadlock at generator"
                                 .format(str(element), str(priorities.get(element.priority))))

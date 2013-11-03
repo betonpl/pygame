@@ -38,6 +38,6 @@ class Board(Tickable, Eventable):
         print "Click in Board at " + str(pos)
 
     def hover(self, pos):
-        pos = pos[0] if pos[0] <= self.__width - 1 else self.__width - 1 , pos[1] if pos[1] <= self.__height - 1 else self.__height - 1
+        pos = pos[0] if pos[0] <= self.__width - 1 else self.__width - 1, pos[1] if pos[1] <= self.__height - 1 else self.__height - 1
         self.__currentHover = pos
 
