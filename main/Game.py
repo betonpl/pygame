@@ -10,52 +10,60 @@ from main.impl.UnitManager import UnitManager
 
 class Game(object):
     def __init__(self):
-        pygame.init()
-
-        self.fpsClock = pygame.time.Clock()
-        self.__drawers = self.__tickers = None
+        self.__fpsClock = pygame.time.Clock()
         self.__size = size = 21, 11
-        pixelSize = size[0] * SQUARE_SIZE , size[1] * SQUARE_SIZE
-        self.__screen = pygame.display.set_mode(pixelSize, pygame.DOUBLEBUF)
-        pygame.mouse.set_visible(1)
-        self.__eventManager = None
-        self.__board = board = Board(21, 10)
-        self.__unitManager = unitManager = UnitManager(board, 11)
-        eventManager = self.registerEventManager(EventManager(self), self.__board)
-        self.registerDrawers(BoardDrawer(self, 10), GameDrawer(self, 9), UnitDrawer(self, 21))
-        self.registerTickers(board, unitManager, eventManager)
 
-    def registerEventManager(self, eventManager, *eventables):
-        self.__eventManager = eventManager
-        for eventable in eventables:
-            eventable.setEventManager(eventManager)
-            eventable.afterEventManagerSet()
-        return self.__eventManager
+        self.__eventManager = eventManager = EventManager(self)
+
+        self.__board = board = Board(size[0], size[1] - 1)
+
+        self.registerEventListeners(self.__board)
+        self.__drawers = self.registerDrawers(BoardDrawer(self, 10), GameDrawer(self, 9), UnitDrawer(self, 21))
+        self.__tickers = self.registerTickers(board, UnitManager(board, 11), eventManager)
+
+    def registerEventListeners(self, *listeners):
+        for listener in listeners:
+            listener.eventManager = self.eventManager
 
     def registerDrawers(self, *drawers):
         self.checkPriorities(drawers)
-        self.__drawers = drawers
+        return drawers
 
     def registerTickers(self, *tickers):
         self.checkPriorities(tickers)
-        self.__tickers = tickers
+        return tickers
+
+    @property
+    def eventManager(self):
+        return self.__eventManager
 
     @property
     def screen(self):
         return self.__screen
 
+    @screen.setter
+    def screen(self, value):
+        self.__screen = value
+
     @property
     def size(self):
         return self.__size
+
     @property
     def board(self):
         return self.__board
 
+    def initPyGame(self):
+        pygame.init()
+        pixelSize = self.size[0] * SQUARE_SIZE, self.size[1] * SQUARE_SIZE
+        self.screen = pygame.display.set_mode(pixelSize, pygame.DOUBLEBUF)
+
     def loop(self):
+        self.initPyGame()
         while self.__eventManager.tick():
             self.__tickersLoop()
             self.__drawersLoop()
-            self.fpsClock.tick(60)
+            self.__fpsClock.tick(60)
         self.game_exit()
 
     def __tickersLoop(self):
