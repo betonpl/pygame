@@ -14,3 +14,9 @@ class Eventable(object):
 
     def afterEventManagerSet(self):
         pass
+    
+    def click(self,pos):
+        pass
+    
+    def hover(self,pos):
+        pass

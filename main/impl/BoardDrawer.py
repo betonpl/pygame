@@ -19,4 +19,4 @@ class BoardDrawer(Drawable):
             for y in range(0, self.board.height):
                 self.screen.blit(imageResources.getBorder(), [x * SQUARE_SIZE, y * SQUARE_SIZE])
 
-        self.blitTranslated(imageResources.getActive(), self.board.currentHover)
+        self.blitTranslated(imageResources.getCursor(), self.board.currentHover)
