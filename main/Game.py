@@ -1,5 +1,5 @@
 import pygame
-from main.Board import Board
+from main.impl.Board import Board
 from main.impl.BoardDrawer import BoardDrawer
 from main.impl.GameDrawer import GameDrawer
 from main.impl.EventManager import EventManager

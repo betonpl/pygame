@@ -16,7 +16,7 @@ class Unit(object):
     
     @property
     def image(self):
-        return self._owner + self._image
+        return self._image
 
     @property 
     def hp(self):
