@@ -12,7 +12,7 @@ class Board(Tickable, Eventable):
         self.__fields = []
         self.__players = []
         self.__currentHover = None
-        self.__currentRound = 0
+        self.__currentPlayer = None
         BoardConfigure(self)
 
     @property
@@ -28,8 +28,21 @@ class Board(Tickable, Eventable):
         return self.__fields
 
     @property
+    def players(self):
+        return self.__players
+
+    @property
     def currentHover(self):
         return self.__currentHover
+
+    @property
+    def currentPlayer(self):
+        return self.__currentPlayer
+
+    @currentPlayer.setter
+    def currentPlayer(self, value):
+        if len(self.players) > 0 and value in self.players:
+            self.__currentPlayer = value
 
     def addPlayer(self, player):
         self.__players.append(player)
@@ -44,7 +57,12 @@ class Board(Tickable, Eventable):
     def click(self, pos):
         pass
 
-    def hover(self, pos):
-        pos = pos[0] if pos[0] <= self.width - 1 else self.width - 1, pos[1] if pos[1] <= self.height - 1 else self.height - 1
-        self.__currentHover = pos
+    def tick(self):
+        if self.currentPlayer == None:
+            self.currentPlayer = self.__players[0]
 
+    def hover(self, pos):
+        self.__currentHover = pos if self.isInside(pos) else None
+
+    def isInside(self, pos):
+        return pos[0] >= 0 and pos[0] < self.width and pos[1] >= 0 and pos[1] < self.height

@@ -5,7 +5,7 @@ from main.impl.GameDrawer import GameDrawer
 from main.impl.EventManager import EventManager
 from main.impl.UnitDrawer import UnitDrawer
 from main.Constants import SQUARE_SIZE
-from main.impl.UnitManager import UnitManager
+from main.impl.FieldManager import FieldManager
 
 
 class Game(object):
@@ -19,7 +19,7 @@ class Game(object):
 
         self.registerEventListeners(self.__board)
         self.__drawers = self.registerDrawers(BoardDrawer(self, 10), GameDrawer(self, 9), UnitDrawer(self, 21))
-        self.__tickers = self.registerTickers(board, UnitManager(board, 11), eventManager)
+        self.__tickers = self.registerTickers(board, FieldManager(board, 11), eventManager)
 
     def registerEventListeners(self, *listeners):
         for listener in listeners:
