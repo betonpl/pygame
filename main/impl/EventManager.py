@@ -15,7 +15,7 @@ class EventManager(Tickable):
             self.delegate = delegate
 
     def __init__(self, game):
-        Tickable.__init__(self, game, -1)
+        Tickable.__init__(self, -1)
         self.__game = game
         self.listeners = {}
         self.listeners[EventManager.CLICKABLE] = []

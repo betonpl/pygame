@@ -4,6 +4,9 @@ from main.impl.BoardDrawer import BoardDrawer
 from main.impl.GameDrawer import GameDrawer
 from main.impl.EventManager import EventManager
 from main.impl.UnitDrawer import UnitDrawer
+from main.Constants import SQUARE_SIZE
+from main.impl.UnitManager import UnitManager
+
 
 class Game(object):
 
@@ -13,13 +16,15 @@ class Game(object):
         # # MZI ## FPSy sa dobre
         self.fpsClock = pygame.time.Clock()
         self.__drawers = self.__tickers = None
-        size = 1280 + 64, 640 + 64
-        self.__screen = pygame.display.set_mode(size, pygame.DOUBLEBUF)
+        self.__size = size = 21, 11
+        pixelSize = size[0] * SQUARE_SIZE , size[1] * SQUARE_SIZE
+        self.__screen = pygame.display.set_mode(pixelSize, pygame.DOUBLEBUF)
         pygame.mouse.set_visible(1)
         self.__eventManager = None
-        self.__board = Board(21, 10, self)
+        self.__board = board = Board(21, 10)
+        self.__unitManager = UnitManager(board)
         self.registerEventManager(EventManager(self), self.__board)
-        self.registerDrawers(BoardDrawer(self, 10), GameDrawer(self, 20), UnitDrawer(self, 21))
+        self.registerDrawers(BoardDrawer(self, 10), GameDrawer(self, 0), UnitDrawer(self, 21))
         self.registerTickers(self.__board)
 
     def registerEventManager(self, eventManager, *eventables):
@@ -37,6 +42,9 @@ class Game(object):
     def screen(self):
         return self.__screen
 
+    @property
+    def size(self):
+        return self.__size
     @property
     def board(self):
         return self.__board
@@ -56,17 +64,20 @@ class Game(object):
         self.game_exit()
 
     def draw(self):
-        drawers = list(self.__drawers[:])
+        for drawer in self.priorityGenerator(self.__drawers):
+            drawer.draw()
+
+    def priorityGenerator(self, priorList):
+        drawers = list(priorList)
         currentPriority = 0
         while(len(drawers) > 0):
             for drawer in drawers:
                 if drawer.priority < 0:
                     drawers.remove(drawer)
                 elif drawer.priority == currentPriority :
-                    drawer.draw()
                     drawers.remove(drawer)
+                    yield drawer
             currentPriority += 1
-        pygame.display.flip()
 
 if __name__ == '__main__':
     game = Game()

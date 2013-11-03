@@ -3,36 +3,24 @@ from main.api.Tickable import Tickable
 from main.api.Eventable import Eventable
 
 class Board(Tickable, Eventable):
+    PLAYERS = ["blue", "orange"]
 
-    def  __init__ (self, width, height, game):
-        Tickable.__init__(self, game, -1)
+    def  __init__ (self, width, height):
+        Tickable.__init__(self, 10)
         Eventable.__init__(self)
-        self._width = width
-        self._height = height
+        self.__width = width
+        self.__height = height
         self.__fields = []
         self.__currentHover = None
-
-    def addField(self, field):
-        self.__fields.append(field)
-
-    def deleteField(self, pos):
-        for field in self.__fields:
-            if field.pos == pos:
-                self.__fields.remove(field)
-
-    def getField(self, pos):
-        for field in self.__fields:
-            if field.pos == pos:
-                return field
-        return None
+        self.__currentRound = 0
 
     @property
     def width(self):
-        return self._width
+        return self.__width
 
     @property
     def height(self):
-        return self._height
+        return self.__height
 
     @property
     def fields(self):
@@ -50,7 +38,6 @@ class Board(Tickable, Eventable):
         print "Click in Board at " + str(pos)
 
     def hover(self, pos):
-        print "Hovering in Board at " + str(pos)
-        pos = pos[0] if pos[0] <= self._width - 1 else self._width - 1 , pos[1] if pos[1] <= self._height - 1 else self._height - 1
+        pos = pos[0] if pos[0] <= self.__width - 1 else self.__width - 1 , pos[1] if pos[1] <= self.__height - 1 else self.__height - 1
         self.__currentHover = pos
 
