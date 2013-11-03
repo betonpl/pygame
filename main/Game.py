@@ -3,6 +3,7 @@ from main.Board import Board
 from main.impl.BoardDrawer import BoardDrawer
 from main.impl.GameDrawer import GameDrawer
 from main.impl.EventManager import EventManager
+from main.impl.UnitDrawer import UnitDrawer
 
 class Game(object):
 
@@ -18,7 +19,7 @@ class Game(object):
         self.__eventManager = None
         self.__board = Board(21, 10, self)
         self.registerEventManager(EventManager(self), self.__board)
-        self.registerDrawers(BoardDrawer(self, 10), GameDrawer(self, 20))
+        self.registerDrawers(BoardDrawer(self, 10), GameDrawer(self, 20), UnitDrawer(self, 21))
         self.registerTickers(self.__board)
 
     def registerEventManager(self, eventManager, *eventables):

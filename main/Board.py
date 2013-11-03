@@ -51,6 +51,6 @@ class Board(Tickable, Eventable):
 
     def hover(self, pos):
         print "Hovering in Board at " + str(pos)
-        pos = pos[0] if pos[0] <= self._width - 2 else self._width - 2 , pos[1] if pos[1] <= self._height - 2 else self._height - 2
+        pos = pos[0] if pos[0] <= self._width - 1 else self._width - 1 , pos[1] if pos[1] <= self._height - 1 else self._height - 1
         self.__currentHover = pos
 

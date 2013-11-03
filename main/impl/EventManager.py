@@ -1,7 +1,7 @@
 from math import floor
 import pygame
 from pygame.locals import QUIT, K_ESCAPE, KEYDOWN, MOUSEBUTTONDOWN, MOUSEMOTION
-from  main.api.Drawer import Drawer
+from main.Constants import SQUARE_SIZE
 from main.api.Tickable import Tickable
 
 class EventManager(Tickable):
@@ -72,7 +72,7 @@ class EventManager(Tickable):
 
     @staticmethod
     def __translateToPos(p):
-        return floor(p[0] / Drawer.SQUARE_SIZE), floor(p[1] / Drawer.SQUARE_SIZE)
+        return floor(p[0] / SQUARE_SIZE), floor(p[1] / SQUARE_SIZE)
 
     @staticmethod
     def __isBroadcastOrRegisteredService(pos, key):

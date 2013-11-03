@@ -1,2 +1,2 @@
-class Constants:
-    pass
+
+SQUARE_SIZE = 64

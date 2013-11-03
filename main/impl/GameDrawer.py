@@ -1,11 +1,11 @@
-from main.api.Drawer import Drawer
+from main.api.Drawable import Drawable
 
-class GameDrawer(Drawer):
-    
+class GameDrawer(Drawable):
+
     def __init__(self, game, priority=None):
-        Drawer.__init__(self, game, priority=priority)
-       
-        
-        
- 
+        Drawable.__init__(self, game, priority=priority)
+
+
+
+
 
