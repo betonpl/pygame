@@ -8,11 +8,11 @@ class Game(object):
 
     def __init__(self):
         pygame.init()
-        
+
         # # MZI ## FPSy sa dobre
         self.fpsClock = pygame.time.Clock()
         self.__drawers = self.__tickers = None
-        size = 1280 + 64, 640 + 64 
+        size = 1280 + 64, 640 + 64
         self.__screen = pygame.display.set_mode(size, pygame.DOUBLEBUF)
         pygame.mouse.set_visible(1)
         self.__eventManager = None
@@ -20,45 +20,45 @@ class Game(object):
         self.registerEventManager(EventManager(self), self.__board)
         self.registerDrawers(BoardDrawer(self, 10), GameDrawer(self, 20))
         self.registerTickers(self.__board)
-    
+
     def registerEventManager(self, eventManager, *eventables):
         self.__eventManager = eventManager
         for eventable in eventables:
             eventable.setEventManager(eventManager)
             eventable.afterEventManagerSet()
- 
+
     def registerDrawers(self, *drawers):
         self.__drawers = drawers
-        
+
     def registerTickers(self, *tickers):
         self.__tickers = tickers
-    
+
     def screen(self):
         return self.__screen
-    
-    @property                                                                                                                                                                                                                               
+
+    @property
     def board(self) :
-        return self.__board        
-    
-    @staticmethod    
+        return self.__board
+
+    @staticmethod
     def game_exit():
         exit()
- 
+
     def __tick(self):
-        pass 
-    
-    def loop(self):        
+        pass
+
+    def loop(self):
         while self.__eventManager.tick():
-            self.__tick() 
+            self.__tick()
             self.draw()
             self.fpsClock.tick(60)
         self.game_exit()
-        
+
     def draw(self):
         for drawer in self.__drawers:
             drawer.draw()
         pygame.display.flip()
- 
+
 if __name__ == '__main__':
     game = Game()
     game.loop()
