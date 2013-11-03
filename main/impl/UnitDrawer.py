@@ -9,7 +9,7 @@ class UnitDrawer(Drawer):
         
         ## MZI ## trzeba miec jakas jednostke
         ## MZI ## to jest czysto teoretyczny model
-        self._unit = game.unit
+        self._unit = Warrior("orange")
     
     @property
     def unit(self):
@@ -22,16 +22,12 @@ class UnitDrawer(Drawer):
         ## MZI ## potrzebna pozycja
         pos = [0,0]
         
-        u = Warrior("orange")
-        
+        ## MZI ## ramka
         self.screen().blit(imageResources.getPlayerBorder(self._unit.owner()), pos)
-        self.screen().blit(imageResources.getUnitIcon(self._unit.image()))
         
-        for x in range(0, 21):
-            for y in range(0, 11):
-                self.screen().blit(imageResources.getBackground(), [x * Drawer.SQUARE_SIZE, y * Drawer.SQUARE_SIZE])
-        for x in range(0, 21):
-            for y in range(0, 10):
-                self.screen().blit(imageResources.getBorder(), [x * Drawer.SQUARE_SIZE, y * Drawer.SQUARE_SIZE])
+        ## MZI ## ikonka
+        self.screen().blit(imageResources.getUnitIcon(self._unit.image()), pos)
         
-        self.blitTranslated(imageResources.getActive(), self.board.currentHover)
+        ## MZI ## akcje
+        self.screen().blit(imageResources.getActionDot(1,"g" if self._unit.actions()>0 else "gray"),pos)
+        self.screen().blit(imageResources.getActionDot(2,"g" if self._unit.actions()>1 else "gray"),pos)
