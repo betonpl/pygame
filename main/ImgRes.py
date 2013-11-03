@@ -28,10 +28,10 @@ class ImgRes:
         return self.getImage(color + "0")
     
     def getActive(self):
-        return self.getImage("active") 
+        return self.getImage("active")
     
     def getCrosshair(self):
-        return self.getImage("crosshair") 
+        return self.getImage("crosshair")
     
     def getRange(self, color):
         return self.getImage(color)
@@ -50,3 +50,6 @@ class ImgRes:
     
     def getButtonBorder(self):
         return self.getImage("button_border")
+    
+    def getActionDot(self,id,color):
+        return self.getImage("action"+str(id)+color)
