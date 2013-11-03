@@ -1,14 +1,16 @@
 class Eventable(object):
-    
+
     def __init__(self):
         self.__eventManager = None
-    
-    @property 
+
+    @property
     def eventManager(self):
         return self.__eventManager
-    
-    def setEventManager(self, eventManager):
+
+    @eventManager.setter
+    def eventManager(self, eventManager):
         self.__eventManager = eventManager
-        
+        self.afterEventManagerSet()
+
     def afterEventManagerSet(self):
         pass

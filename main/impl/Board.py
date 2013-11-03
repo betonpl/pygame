@@ -5,8 +5,8 @@ from main.api.Eventable import Eventable
 class Board(Tickable, Eventable):
     PLAYERS = ["blue", "orange"]
 
-    def  __init__ (self, width, height):
-        Tickable.__init__(self, 10)
+    def  __init__ (self, width, height, priority=1):
+        Tickable.__init__(self, priority)
         Eventable.__init__(self)
         self.__width = width
         self.__height = height
@@ -35,7 +35,7 @@ class Board(Tickable, Eventable):
         self.eventManager.register(None, self, EventManager.CLICKABLE)
 
     def click(self, pos):
-        print "Click in Board at " + str(pos)
+        pass
 
     def hover(self, pos):
         pos = pos[0] if pos[0] <= self.__width - 1 else self.__width - 1, pos[1] if pos[1] <= self.__height - 1 else self.__height - 1
