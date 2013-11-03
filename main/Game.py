@@ -16,7 +16,7 @@ class Game(object):
         self.__screen = pygame.display.set_mode(size, pygame.DOUBLEBUF)
         pygame.mouse.set_visible(1)
         self.__eventManager = None
-        self.__board = Board(21, 11, self)
+        self.__board = Board(21, 10, self)
         self.registerEventManager(EventManager(self), self.__board)
         self.registerDrawers(BoardDrawer(self, 10), GameDrawer(self, 20))
         self.registerTickers(self.__board)
@@ -37,7 +37,7 @@ class Game(object):
         return self.__screen
 
     @property
-    def board(self) :
+    def board(self):
         return self.__board
 
     @staticmethod
@@ -55,8 +55,16 @@ class Game(object):
         self.game_exit()
 
     def draw(self):
-        for drawer in self.__drawers:
-            drawer.draw()
+        drawers = list(self.__drawers[:])
+        currentPriority = 0
+        while(len(drawers) > 0):
+            for drawer in drawers:
+                if drawer.priority < 0:
+                    drawers.remove(drawer)
+                elif drawer.priority == currentPriority :
+                    drawer.draw()
+                    drawers.remove(drawer)
+            currentPriority += 1
         pygame.display.flip()
 
 if __name__ == '__main__':
