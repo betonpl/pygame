@@ -1,6 +1,5 @@
 from main.api.Drawable import Drawable
 from main.ImgRes import ImgRes
-from main.unit.Warrior import Warrior
 
 class UnitDrawer(Drawable):
 

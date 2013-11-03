@@ -55,5 +55,5 @@ class ImgRes:
     def getButtonBorder(self):
         return self.getImage('interface/button_border')
 
-    def getActionDot(self, id, status):
-        return self.getImage('unit/action_{0}_{1}'.format(id,status))
+    def getActionDot(self, dotId, status):
+        return self.getImage('unit/action_{0}_{1}'.format(dotId,status))
