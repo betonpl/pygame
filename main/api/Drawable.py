@@ -1,3 +1,4 @@
+from main.Constants import SQUARE_SIZE
 
 class Drawable():
     __priority = 0
@@ -21,4 +22,13 @@ class Drawable():
 
     def draw(self):
         pass
+
+    def blitTranslated(self, image, x, y=None):
+        if(x == None and y == None):
+            return
+        if len(x) == 2:
+            blitPos = [x[0] * SQUARE_SIZE, x[1] * SQUARE_SIZE]
+        else:
+            blitPos = [x * SQUARE_SIZE, y * SQUARE_SIZE]
+        self.screen().blit(image, blitPos)
 
