@@ -43,5 +43,5 @@ class CharacterUnit:
             return True
         return False
     
-    def draw(self):
+    def __drawers(self):
         return self.__image

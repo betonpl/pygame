@@ -8,7 +8,7 @@ from main.ImgRes import ImgRes
 
 def drawUnits(units):
     for u in units:
-        screen.blit(u.draw(), u.getPosition().getPixelPosition())
+        screen.blit(u.__drawers(), u.getPosition().getPixelPosition())
         
 pygame.init()
 # 157.158.38.222:3480 http 3422 ssh python python123 varwwwhtml

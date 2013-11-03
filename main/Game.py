@@ -9,7 +9,6 @@ from main.impl.UnitManager import UnitManager
 
 
 class Game(object):
-
     def __init__(self):
         pygame.init()
 
@@ -22,21 +21,24 @@ class Game(object):
         pygame.mouse.set_visible(1)
         self.__eventManager = None
         self.__board = board = Board(21, 10)
-        self.__unitManager = UnitManager(board)
-        self.registerEventManager(EventManager(self), self.__board)
-        self.registerDrawers(BoardDrawer(self, 10), GameDrawer(self, 0), UnitDrawer(self, 21))
-        self.registerTickers(self.__board)
+        self.__unitManager = unitManager = UnitManager(board, 11)
+        eventManager = self.registerEventManager(EventManager(self), self.__board)
+        self.registerDrawers(BoardDrawer(self, 10), GameDrawer(self, 9), UnitDrawer(self, 21))
+        self.registerTickers(board, unitManager, eventManager)
 
     def registerEventManager(self, eventManager, *eventables):
         self.__eventManager = eventManager
         for eventable in eventables:
             eventable.setEventManager(eventManager)
             eventable.afterEventManagerSet()
+        return self.__eventManager
 
     def registerDrawers(self, *drawers):
+        self.checkPriorities(drawers)
         self.__drawers = drawers
 
     def registerTickers(self, *tickers):
+        self.checkPriorities(tickers)
         self.__tickers = tickers
 
     def screen(self):
@@ -49,36 +51,50 @@ class Game(object):
     def board(self):
         return self.__board
 
-    @staticmethod
-    def game_exit():
-        exit()
-
-    def __tick(self):
-        pass
-
     def loop(self):
         while self.__eventManager.tick():
-            self.__tick()
-            self.draw()
+            self.__tickersLoop()
+            self.__drawersLoop()
             self.fpsClock.tick(60)
         self.game_exit()
 
-    def draw(self):
+    def __tickersLoop(self):
+        for ticker in self.priorityGenerator(self.__tickers):
+            ticker.tick()
+
+    def __drawersLoop(self):
         for drawer in self.priorityGenerator(self.__drawers):
             drawer.draw()
+        pygame.display.flip()
 
-    def priorityGenerator(self, priorList):
-        drawers = list(priorList)
+    @staticmethod
+    def priorityGenerator(inputList):
+        inputList = list(inputList)
         currentPriority = 0
-        while(len(drawers) > 0):
-            for drawer in drawers:
-                if drawer.priority < 0:
-                    drawers.remove(drawer)
-                elif drawer.priority == currentPriority :
-                    drawers.remove(drawer)
-                    yield drawer
+
+        while(len(inputList) > 0):
+            for element in inputList:
+                if element.priority < 0:
+                    inputList.remove(element)
+                    continue
+                elif element.priority == currentPriority:
+                    inputList.remove(element)
+                    yield element
             currentPriority += 1
 
+    @staticmethod
+    def checkPriorities(list):
+        priorities = {}
+        for element in list:
+            if  priorities.has_key(element.priority):
+                raise Exception("Priorities cannot be the same in {0} and {1} due to deadlock at generator"
+                                .format(str(element), str(priorities.get(element.priority))))
+            priorities[element.priority] = element
+        return True
+
+    @staticmethod
+    def game_exit():
+        exit()
 if __name__ == '__main__':
     game = Game()
     game.loop()
