@@ -12,7 +12,7 @@ class Game(object):
     def __init__(self):
         self.__fpsClock = pygame.time.Clock()
         self.__size = size = 21, 11
-
+        self.__screen = None
         self.__eventManager = eventManager = EventManager(self)
 
         self.__board = board = Board(size[0], size[1] - 1)
