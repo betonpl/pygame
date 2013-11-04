@@ -31,7 +31,7 @@ class ImgRes:
             return self.getImage( 'unit/hit_points_{0}_{1}'.format(color,int(ceil((float(precent))*10)*10)) )
         print 'precent in ImgRes.getPlayerBorder(color,border) must be value from 0 to 1. Now is {0}'.format(precent)
 
-    def getActive(self):
+    def getCursor(self):
         return self.getImage('interface/cursor')
 
     def getCrosshair(self):
@@ -54,6 +54,9 @@ class ImgRes:
 
     def getButtonBorder(self):
         return self.getImage('interface/button_border')
+
+    def getTarget(self):
+        return self.getImage('interface/target')
 
     def getActionDot(self, dotId, status):
         return self.getImage('unit/action_{0}_{1}'.format(dotId,status))
