@@ -25,9 +25,9 @@ class Drawable():
     def blitTranslated(self, image, x, y=None):
         if(x == None and y == None):
             return
-        if len(x) == 2:
-            blitPos = [x[0] * SQUARE_SIZE, x[1] * SQUARE_SIZE]
-        else:
+        if isinstance(x, int) :
             blitPos = [x * SQUARE_SIZE, y * SQUARE_SIZE]
+        else:
+            blitPos = [x[0] * SQUARE_SIZE, x[1] * SQUARE_SIZE]
         self.screen.blit(image, blitPos)
 

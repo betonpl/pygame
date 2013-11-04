@@ -22,6 +22,4 @@ class UnitDrawer(Drawable):
         self.blitTranslated(imageResources.getUnitIcon(ownerName, unit.image), pos)
         if self.game.board.currentPlayer == unit.owner:
             self.blitTranslated(imageResources.getActionDot(0, 1 if unit.actions > 0 else 0), pos)
-            self.blitTranslated(imageResources.getActionDot(1, 1 if unit.actions > 1 else 0), pos),
-        if self.game.board.selected != None:
-            self.blitTranslated(imageResources.getCursor(), self.game.board.selected.pos)
+            self.blitTranslated(imageResources.getActionDot(1, 1 if unit.actions > 1 else 0), pos)
