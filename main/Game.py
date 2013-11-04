@@ -20,7 +20,7 @@ class Game(object):
 
         self.registerEventListeners(board, control)
         self.__drawers = self.registerDrawers(BoardDrawer(self, 10), GameDrawer(self, 9), UnitDrawer(self, 21), ControlDrawer(self, 19))
-        self.__tickers = self.registerTickers(board, eventManager, board.fieldManager)
+        self.__tickers = self.registerTickers(board, eventManager, board.fieldManager, board.battleManager)
 
     def registerEventListeners(self, *listeners):
         for listener in listeners:

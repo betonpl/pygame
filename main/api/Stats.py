@@ -1,11 +1,11 @@
 
 class Stats(object):
     
-    def __init__(self, attack=0, defence=0, radius=0, speed=0, hp=0):   
+    def __init__(self, attack=0, defence=0, attackRange=0, moveRange=0, hp=0):   
         self._attack = attack
         self._defence = defence
-        self._radius = radius
-        self._speed = speed
+        self._attackRange = attackRange
+        self._moveRange = moveRange
         self._hp = hp
 
     @property
@@ -17,12 +17,12 @@ class Stats(object):
         return self._defence
     
     @property
-    def radius(self):
-        return self._radius
+    def attackRange(self):
+        return self._attackRange
     
     @property
-    def speed(self):
-        return self._speed  
+    def moveRange(self):
+        return self._moveRange  
     
     @property
     def hp(self):

@@ -8,10 +8,8 @@ class FieldManager(Eventable, Tickable):
         Eventable.__init__(self)
         Tickable.__init__(self, priority)
         self.__board = board
-        self.__fields = []
-        self.__selected = None
-        self.__actions = []
-
+        self.__fields = self.__selected = self.__actions = None
+        self.resetManager()
     @property
     def fields(self):
         return self.__fields
@@ -37,12 +35,12 @@ class FieldManager(Eventable, Tickable):
             if field.unit.isDead():
                 self.fields.remove(field)
 
-
     def parseActions(self):
         for action in self.__actions:
             if(action['action'] == "move"):
-                action['source'].pos = action['dest']
-        pass
+                self.selected.moveTo(action['dest'])
+                self.selected = None
+                self.__actions.remove(action)
 
     def tick(self):
         self.cleanDead()
@@ -52,34 +50,35 @@ class FieldManager(Eventable, Tickable):
         self.selected = None
         for field in self.fields:
             field.unit.resetActions()
-
-    def click(self, pos):
-        field = self.getFieldAtPos(pos)
-        if(field != None and field.unit.owner == self.board.currentPlayer):
+            
+    def resetManager(self):
+        self.selected = None
+        self.__fields = []
+        self.__actions = []
+        
+    def click(self, clickPos):
+        if(not self.board.isInside(clickPos)):
+            return False
+        field = self.getFieldAtPos(clickPos)
+        if(field != None and field.unit.owner == self.board.currentPlayer and not field.unit.isExhausted()):
             self.selected = field
         elif self.selected != None:
-            destination = pos
-            if destination in Field.getOperationRadius(self.selected):
-                destinationField = self.getFieldAtPos(destination)
-                if destinationField == None:
-                    self.addAction(dict(source=self.selected, action="move", dest=pos))
-                else:
-                    self.addAction(dict(source=self.selected, action="attack", dest=destinationField))
-
-
+            selectedUnitStats = self.selected.unit.stats
+            if field == None and clickPos in Field.getRange(self.selected, selectedUnitStats.moveRange):
+                self.addAction(dict(source=self.selected, action="move", dest=clickPos))
+            elif field != None and clickPos in Field.getRange(self.selected, selectedUnitStats.attackRange):
+                if field.unit.owner != self.board.currentPlayer:
+                    print "attack"
+                    self.addAction(dict(source=self.selected, action="attack", dest=field))
 
     def addField(self, field):
         self.__fields.append(field)
 
-    def addAction(self, field):
-        self.__actions.append(field)
+    def addAction(self, action):
+        self.__actions.append(action)
 
     def getFieldAtPos(self, pos):
         for field in self.fields:
             if field.pos == pos:
                 return field
         return None
-
-
-
-

@@ -1,4 +1,6 @@
 from math import copysign, floor
+import copy
+import math
 
 class Field:
 
@@ -14,7 +16,15 @@ class Field:
     @property
     def y(self):
         return self._y
-
+    
+    @x.setter
+    def x(self,value):
+        self._x = value
+        
+    @y.setter
+    def y(self,value):
+        self._y = value
+        
     @property
     def unit(self):
         return self._unit
@@ -23,16 +33,15 @@ class Field:
     def pos(self):
         return self.x, self.y
 
-    @pos.setter
-    def pos(self, value):
-        if(type(value, tuple)):
-            self._x = value[0]
-            self._y = value[1]
+    def moveTo(self, value):
+        if(isinstance(value, tuple)):
+            self.x = int(value[0])
+            self.y = int(value[1])
 
-        if(type(value, Field)):
-            self._x = value.x
-            self._y = value.y
-
+        if(isinstance(value, Field)):
+            self.x = int(value.x)
+            self.y = int(value.y)
+        self.unit.countActionPoints()
 
     def distanceFrom(self, field):
         return self.distanceBetween(self, field)
@@ -41,22 +50,20 @@ class Field:
     def distanceBetween(field1, field2):
         distanceOnXAxe = copysign(field1.x - field2.x, 1)
         distanceOnYAxe = copysign(field1.y - field2.y, 1)
-        return distanceOnXAxe if distanceOnXAxe > distanceOnYAxe else distanceOnYAxe
-
-    def getPixelPosition(self):
-        return [self._x * 64, self._y * 64]
+        return math.floor( math.sqrt ( distanceOnXAxe**2  + distanceOnYAxe**2 ))
 
     def __str__(self):
-        return "x: " + str(self._x) + "\ty: " + str(self._y)
+        return "x: " + str(self.x) + "\ty: " + str(self.y)
 
     @staticmethod
     def pxLocationToField(pos):
         return Field(floor(pos[0] / 64), floor(pos[1] / 64))
 
     @staticmethod
-    def getOperationRadius(selected):
-        unitRadius = selected.unit.stats.radius
-        for x in xrange(selected.x - unitRadius, selected.x + unitRadius + 1):
-            for y in xrange(selected.y - unitRadius, selected.y + unitRadius + 1):
-                if Field.distanceBetween(selected, Field(x, y, None)):
-                    yield (x, y)
+    def getRange(selected,rangeValue):
+        selectedPos = ( int(selected.pos[0]), int(selected.pos[1]) )
+        for x in range(selectedPos[0] - rangeValue, selectedPos[0] + rangeValue + 1):
+            for y in range(selectedPos[1] - rangeValue, selectedPos[1] + rangeValue + 1):
+                if Field.distanceBetween(selected, Field(x, y, None)) <= rangeValue:
+                    yield (x,y) 
+

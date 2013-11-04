@@ -48,7 +48,7 @@ class Unit(object):
         return not self.isAlive()
     
     def isExhausted(self):
-        return self.actions > 0
+        return self.actions < 1
         
     def countActionPoints(self):
         self._actions -= 1

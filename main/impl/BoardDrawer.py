@@ -32,9 +32,12 @@ class BoardDrawer(Drawable):
 
     def drawSelected(self, imageResources):
         selected = self.board.selected
-        self.blitTranslated(imageResources.getTarget(), selected.pos)
+        self.blitTranslated(imageResources.getTarget(), selected.x, selected.y)
 
-        for pos in Field.getOperationRadius(selected):
+        for pos in Field.getRange(selected,selected.unit.stats.moveRange): 
             if(self.board.isInside(pos)):
                 self.blitTranslated(imageResources.getRange("green"), pos)
-    pass
+                
+        for pos in Field.getRange(selected,selected.unit.stats.attackRange): 
+            if(self.board.isInside(pos)):
+                self.blitTranslated(imageResources.getRange("red"), pos)

@@ -4,6 +4,7 @@ from main.api.Eventable import Eventable
 from main.impl.BoardConfigure import BoardConfigure
 from main.impl.FieldManager import FieldManager
 import math
+from main.impl.BattleManager import BattleManager, Battle
 
 class Board(Tickable, Eventable):
 
@@ -11,13 +12,17 @@ class Board(Tickable, Eventable):
         Tickable.__init__(self, priority)
         Eventable.__init__(self)
         self.__size = dict(width=width, height=height)
+        self.__players = self.__currentPlayer = self.__currentHover = self.__fieldManager = None
+        self.__fieldManager = FieldManager(self, self.priority + 1) 
+        self.__battleManager = BattleManager(self.priority + 2) 
+        self.__newGame()
+    
+    def __newGame(self):
         self.__players = []
-
         self.__currentPlayer = None
         self.__currentHover = None
-        self.__fieldManager = FieldManager(self, priority + 1)
+        self.fieldManager.resetManager()
         BoardConfigure(self)
-
     @property
     def width(self):
         return self.__size['width']
@@ -49,7 +54,11 @@ class Board(Tickable, Eventable):
     @property
     def fieldManager(self):
         return self.__fieldManager
-
+    
+    @property
+    def battleManager(self):
+        return self.__battleManager
+    
     @currentPlayer.setter
     def currentPlayer(self, value):
         if len(self.players) > 0 and value in self.players:
@@ -63,15 +72,26 @@ class Board(Tickable, Eventable):
 
     def afterEventManagerSet(self):
         self.eventManager.register(None, self, EventManager.HOVERABLE)
-        self.eventManager.register(None, self, EventManager.CLICKABLE)
         self.eventManager.register(None, self.__fieldManager, EventManager.CLICKABLE)
 
-    def click(self, pos):
+    def isAllExhausted(self):
+        if len(self.fields) == 0: 
+            return False
+        for field in self.fields:
+            if field.unit.owner == self.currentPlayer and not field.unit.isExhausted():
+                return False
+        return True
         pass
-
+    
     def tick(self):
         if self.currentPlayer == None:
             self.currentPlayer = self.__players[0]
+        if self.isAllExhausted():
+            self.nextRound()
+        for action in self.fieldManager.actions:
+            if(action['action'] == 'attack'):
+                self.battleManager.addBattle(Battle(action['source'].unit, action['dest'].unit))
+                self.fieldManager.actions.remove(action)
 
     def hover(self, pos):
         self.__currentHover = pos if self.isInside(pos) else None
