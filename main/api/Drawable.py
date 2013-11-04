@@ -1,4 +1,4 @@
-from main.Constants import SQUARE_SIZE
+from main.game.config.Constants import SQUARE_SIZE
 
 class Drawable():
     __priority = 0

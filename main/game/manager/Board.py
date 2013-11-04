@@ -1,10 +1,10 @@
-from main.impl.EventManager import EventManager
 from main.api.Tickable import Tickable
 from main.api.Eventable import Eventable
-from main.impl.BoardConfigure import BoardConfigure
-from main.impl.FieldManager import FieldManager
 import math
-from main.impl.BattleManager import BattleManager, Battle
+from main.game.manager.FieldManager import FieldManager
+from main.game.manager.BattleManager import BattleManager, Battle
+from main.game.config.BoardConfigure import BoardConfigure
+from main.game.manager.EventManager import EventManager
 
 class Board(Tickable, Eventable):
 
@@ -13,10 +13,10 @@ class Board(Tickable, Eventable):
         Eventable.__init__(self)
         self.__size = dict(width=width, height=height)
         self.__players = self.__currentPlayer = self.__currentHover = self.__fieldManager = None
-        self.__fieldManager = FieldManager(self, self.priority + 1) 
-        self.__battleManager = BattleManager(self.priority + 2) 
+        self.__fieldManager = FieldManager(self, self.priority + 1)
+        self.__battleManager = BattleManager(self.priority + 2)
         self.__newGame()
-    
+
     def __newGame(self):
         self.__players = []
         self.__currentPlayer = None
@@ -54,11 +54,11 @@ class Board(Tickable, Eventable):
     @property
     def fieldManager(self):
         return self.__fieldManager
-    
+
     @property
     def battleManager(self):
         return self.__battleManager
-    
+
     @currentPlayer.setter
     def currentPlayer(self, value):
         if len(self.players) > 0 and value in self.players:
@@ -75,14 +75,13 @@ class Board(Tickable, Eventable):
         self.eventManager.register(None, self.__fieldManager, EventManager.CLICKABLE)
 
     def isAllExhausted(self):
-        if len(self.fields) == 0: 
+        if len(self.fields) == 0:
             return False
         for field in self.fields:
             if field.unit.owner == self.currentPlayer and not field.unit.isExhausted():
                 return False
         return True
-        pass
-    
+
     def tick(self):
         if self.currentPlayer == None:
             self.currentPlayer = self.__players[0]

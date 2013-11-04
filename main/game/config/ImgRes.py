@@ -26,9 +26,9 @@ class ImgRes:
         return pygame.image.load(self.path + img + ".png").convert_alpha()
 
     def getPlayerBorder(self, color, precent):
-        #return self.getImage( "unit/hit_points_" + color + "_" + str(precent) )
-        if precent>=0 and precent<=1 :
-            return self.getImage( 'unit/hit_points_{0}_{1}'.format(color,int(ceil((float(precent))*10)*10)) )
+        # return self.getImage( "unit/hit_points_" + color + "_" + str(precent) )
+        if precent >= 0 and precent <= 1 :
+            return self.getImage('unit/hit_points_{0}_{1}'.format(color, int(ceil((float(precent)) * 10) * 10)))
         print 'precent in ImgRes.getPlayerBorder(color,border) must be value from 0 to 1. Now is {0}'.format(precent)
 
     def getCursor(self):
@@ -59,4 +59,4 @@ class ImgRes:
         return self.getImage('interface/target')
 
     def getActionDot(self, dotId, status):
-        return self.getImage('unit/action_{0}_{1}'.format(dotId,status))
+        return self.getImage('unit/action_{0}_{1}'.format(dotId, status))

@@ -1,12 +1,12 @@
 import pygame
-from main.impl.Board import Board
-from main.impl.BoardDrawer import BoardDrawer
-from main.impl.GameDrawer import GameDrawer
-from main.impl.EventManager import EventManager
-from main.impl.UnitDrawer import UnitDrawer
-from main.Constants import SQUARE_SIZE
-from main.impl.ControlDrawer import ControlDrawer
-from main.impl.Control import Control
+from main.game.manager.EventManager import EventManager
+from main.game.manager.Board import Board
+from main.game.manager.Control import Control
+from main.game.drawer.BoardDrawer import BoardDrawer
+from main.game.drawer.ControlDrawer import ControlDrawer
+from main.game.drawer.GameDrawer import GameDrawer
+from main.game.drawer.UnitDrawer import UnitDrawer
+from main.game.config.Constants import SQUARE_SIZE
 
 class Game(object):
     def __init__(self):

@@ -1,9 +1,9 @@
 from main.api.Eventable import Eventable
-from main.impl.EventManager import EventManager
+from main.game.manager.EventManager import EventManager
 
 class Control(Eventable):
 
-    position = (20,10)
+    position = (20, 10)
 
     def  __init__ (self, board):
         Eventable.__init__(self)

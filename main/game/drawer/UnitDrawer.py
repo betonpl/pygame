@@ -1,5 +1,5 @@
 from main.api.Drawable import Drawable
-from main.ImgRes import ImgRes
+from main.game.config.ImgRes import ImgRes
 
 class UnitDrawer(Drawable):
 

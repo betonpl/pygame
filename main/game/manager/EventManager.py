@@ -1,8 +1,8 @@
 from math import floor
 import pygame
 from pygame.locals import QUIT, K_ESCAPE, KEYDOWN, MOUSEBUTTONDOWN, MOUSEMOTION
-from main.Constants import SQUARE_SIZE
 from main.api.Tickable import Tickable
+from main.game.config.Constants import SQUARE_SIZE
 
 class EventManager(Tickable):
     HOVERABLE = 1

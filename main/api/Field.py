@@ -1,5 +1,4 @@
 from math import copysign, floor
-import copy
 import math
 
 class Field:
@@ -16,15 +15,15 @@ class Field:
     @property
     def y(self):
         return self._y
-    
+
     @x.setter
-    def x(self,value):
+    def x(self, value):
         self._x = value
-        
+
     @y.setter
-    def y(self,value):
+    def y(self, value):
         self._y = value
-        
+
     @property
     def unit(self):
         return self._unit
@@ -50,7 +49,7 @@ class Field:
     def distanceBetween(field1, field2):
         distanceOnXAxe = copysign(field1.x - field2.x, 1)
         distanceOnYAxe = copysign(field1.y - field2.y, 1)
-        return math.floor( math.sqrt ( distanceOnXAxe**2  + distanceOnYAxe**2 ))
+        return math.floor(math.sqrt (distanceOnXAxe ** 2 + distanceOnYAxe ** 2))
 
     def __str__(self):
         return "x: " + str(self.x) + "\ty: " + str(self.y)
@@ -60,10 +59,10 @@ class Field:
         return Field(floor(pos[0] / 64), floor(pos[1] / 64))
 
     @staticmethod
-    def getRange(selected,rangeValue):
-        selectedPos = ( int(selected.pos[0]), int(selected.pos[1]) )
+    def getRange(selected, rangeValue):
+        selectedPos = (int(selected.pos[0]), int(selected.pos[1]))
         for x in range(selectedPos[0] - rangeValue, selectedPos[0] + rangeValue + 1):
             for y in range(selectedPos[1] - rangeValue, selectedPos[1] + rangeValue + 1):
                 if Field.distanceBetween(selected, Field(x, y, None)) <= rangeValue:
-                    yield (x,y) 
+                    yield (x, y)
 

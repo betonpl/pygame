@@ -1,6 +1,6 @@
 from main.api.Drawable import Drawable
-from main.ImgRes import ImgRes
-from main.impl.Control import Control
+from main.game.manager.Control import Control
+from main.game.config.ImgRes import ImgRes
 
 class ControlDrawer(Drawable):
 
@@ -10,7 +10,7 @@ class ControlDrawer(Drawable):
     def draw(self):
         Drawable.draw(self)
         imageResources = ImgRes.getInstance()
-        
-        self.blitTranslated(imageResources.getButtonBorder(),Control.position)
-        self.blitTranslated(imageResources.getSkipIcon(),Control.position)
-        
+
+        self.blitTranslated(imageResources.getButtonBorder(), Control.position)
+        self.blitTranslated(imageResources.getSkipIcon(), Control.position)
+

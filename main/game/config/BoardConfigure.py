@@ -1,8 +1,8 @@
-from main.Field import Field
-from main.impl.Player import Player
 from main.unit.Balanced import Balanced
 from main.unit.Warrior import Warrior
 from main.unit.Defender import Defender
+from main.api.Player import Player
+from main.api.Field import Field
 
 
 class BoardConfigure(object):

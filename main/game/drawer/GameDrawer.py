@@ -1,6 +1,6 @@
 from main.api.Drawable import Drawable
-from main.ImgRes import ImgRes
-from main.Constants import SQUARE_SIZE
+from main.game.config.Constants import SQUARE_SIZE
+from main.game.config.ImgRes import ImgRes
 class GameDrawer(Drawable):
 
     def __init__(self, game, priority=None):

@@ -1,6 +1,6 @@
 from main.api.Eventable import Eventable
 from main.api.Tickable import Tickable
-from main.Field import Field
+from main.api.Field import Field
 
 class FieldManager(Eventable, Tickable):
 
@@ -38,24 +38,28 @@ class FieldManager(Eventable, Tickable):
     def parseActions(self):
         for action in self.__actions:
             if(action['action'] == "move"):
-                self.selected.moveTo(action['dest'])
-                self.selected = None
+                action['source'].moveTo(action['dest'])
                 self.__actions.remove(action)
+
+    def checkExhausting(self):
+        if self.selected != None and self.selected.unit.isExhausted():
+            self.selected = None
 
     def tick(self):
         self.cleanDead()
         self.parseActions();
+        self.checkExhausting();
 
     def reset(self):
         self.selected = None
         for field in self.fields:
             field.unit.resetActions()
-            
+
     def resetManager(self):
         self.selected = None
         self.__fields = []
         self.__actions = []
-        
+
     def click(self, clickPos):
         if(not self.board.isInside(clickPos)):
             return False
@@ -63,19 +67,20 @@ class FieldManager(Eventable, Tickable):
         if(field != None and field.unit.owner == self.board.currentPlayer and not field.unit.isExhausted()):
             self.selected = field
         elif self.selected != None:
-            selectedUnitStats = self.selected.unit.stats
-            if field == None and clickPos in Field.getRange(self.selected, selectedUnitStats.moveRange):
-                self.addAction(dict(source=self.selected, action="move", dest=clickPos))
-            elif field != None and clickPos in Field.getRange(self.selected, selectedUnitStats.attackRange):
-                if field.unit.owner != self.board.currentPlayer:
-                    print "attack"
-                    self.addAction(dict(source=self.selected, action="attack", dest=field))
+            selectedUnit = self.selected.unit
+            if not selectedUnit.isExhausted():
+                if field == None and clickPos in Field.getRange(self.selected, selectedUnit.stats.moveRange):
+                    self.addAction(dict(source=self.selected, action="move", dest=clickPos))
+                elif field != None and clickPos in Field.getRange(self.selected, selectedUnit.stats.attackRange):
+                    if field.unit.owner != self.board.currentPlayer:
+                        self.addAction(dict(source=self.selected, action="attack", dest=field))
 
     def addField(self, field):
         self.__fields.append(field)
 
     def addAction(self, action):
         self.__actions.append(action)
+        self.selected = None
 
     def getFieldAtPos(self, pos):
         for field in self.fields:

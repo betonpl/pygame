@@ -1,8 +1,8 @@
 from main.api.Drawable import Drawable
-from main.ImgRes import ImgRes
-from main.Constants import SQUARE_SIZE
 import pygame.font
-from main.Field import Field
+from main.game.config.Constants import SQUARE_SIZE
+from main.game.config.ImgRes import ImgRes
+from main.api.Field import Field
 
 class BoardDrawer(Drawable):
 
@@ -34,10 +34,10 @@ class BoardDrawer(Drawable):
         selected = self.board.selected
         self.blitTranslated(imageResources.getTarget(), selected.x, selected.y)
 
-        for pos in Field.getRange(selected,selected.unit.stats.moveRange): 
+        for pos in Field.getRange(selected, selected.unit.stats.moveRange):
             if(self.board.isInside(pos)):
                 self.blitTranslated(imageResources.getRange("green"), pos)
-                
-        for pos in Field.getRange(selected,selected.unit.stats.attackRange): 
+
+        for pos in Field.getRange(selected, selected.unit.stats.attackRange):
             if(self.board.isInside(pos)):
                 self.blitTranslated(imageResources.getRange("red"), pos)
