@@ -14,9 +14,6 @@ class BoardDrawer(Drawable):
     def board(self):
         return self._board
 
-
-
-
     def draw(self):
         Drawable.draw(self)
         imageResources = ImgRes.getInstance()

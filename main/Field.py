@@ -22,6 +22,18 @@ class Field:
     @property
     def pos(self):
         return self.x, self.y
+
+    @pos.setter
+    def pos(self, value):
+        if(type(value, tuple)):
+            self._x = value[0]
+            self._y = value[1]
+
+        if(type(value, Field)):
+            self._x = value.x
+            self._y = value.y
+
+
     def distanceFrom(self, field):
         return self.distanceBetween(self, field)
 
