@@ -80,6 +80,7 @@ class Board(Tickable, Eventable):
         currentPlayerIndex = self.players.index(self.currentPlayer)
         nextPlayerIndex = int(math.fmod(currentPlayerIndex + 1, len(self.players)))
         self.currentPlayer = self.players[nextPlayerIndex]
+        self.fieldManager.reset()
 
     def isInside(self, pos):
         return pos[0] >= 0 and pos[0] < self.width and pos[1] >= 0 and pos[1] < self.height

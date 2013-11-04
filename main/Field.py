@@ -22,10 +22,13 @@ class Field:
     @property
     def pos(self):
         return self.x, self.y
-
     def distanceFrom(self, field):
-        distanceOnXAxe = copysign(self.x - field.x, 1)
-        distanceOnYAxe = copysign(self.y - field.y, 1)
+        return self.distanceBetween(self, field)
+
+    @staticmethod
+    def distanceBetween(field1, field2):
+        distanceOnXAxe = copysign(field1.x - field2.x, 1)
+        distanceOnYAxe = copysign(field1.y - field2.y, 1)
         return distanceOnXAxe if distanceOnXAxe > distanceOnYAxe else distanceOnYAxe
 
     def getPixelPosition(self):
@@ -37,3 +40,11 @@ class Field:
     @staticmethod
     def pxLocationToField(pos):
         return Field(floor(pos[0] / 64), floor(pos[1] / 64))
+
+    @staticmethod
+    def getOperationRadius(selected):
+        unitRadius = selected.unit.stats.radius
+        for x in xrange(selected.x - unitRadius, selected.x + unitRadius + 1):
+            for y in xrange(selected.y - unitRadius, selected.y + unitRadius + 1):
+                if Field.distanceBetween(selected, Field(x, y, None)):
+                    yield (x, y)
