@@ -2,17 +2,19 @@ from main.impl.EventManager import EventManager
 from main.api.Tickable import Tickable
 from main.api.Eventable import Eventable
 from main.impl.BoardConfigure import BoardConfigure
+from main.impl.FieldManager import FieldManager
+import math
 
 class Board(Tickable, Eventable):
 
-    def  __init__ (self, width, height, priority=1):
+    def  __init__ (self, width, height, priority):
         Tickable.__init__(self, priority)
         Eventable.__init__(self)
         self.__size = dict(width=width, height=height)
-        self.__fields = []
         self.__players = []
-        self.__currentHover = None
         self.__currentPlayer = None
+        self.__currentHover = None
+        self.__fieldManager = FieldManager(self)
         BoardConfigure(self)
 
     @property
@@ -25,7 +27,7 @@ class Board(Tickable, Eventable):
 
     @property
     def fields(self):
-        return self.__fields
+        return self.__fieldManager.__fields
 
     @property
     def players(self):
@@ -55,6 +57,7 @@ class Board(Tickable, Eventable):
         self.eventManager.register(None, self, EventManager.CLICKABLE)
 
     def click(self, pos):
+
         pass
 
     def tick(self):
@@ -63,6 +66,11 @@ class Board(Tickable, Eventable):
 
     def hover(self, pos):
         self.__currentHover = pos if self.isInside(pos) else None
+
+    def nextRound(self):
+        currentPlayerIndex = self.players.index(self.currentPlayer)
+        nextPlayerIndex = int(math.fmod(currentPlayerIndex + 1, len(self.players)))
+        self.currentPlayer = self.players[nextPlayerIndex]
 
     def isInside(self, pos):
         return pos[0] >= 0 and pos[0] < self.width and pos[1] >= 0 and pos[1] < self.height

@@ -6,7 +6,6 @@ class Drawable():
         if(priority != None):
             self.__priority = priority
         self.__game = game
-        print str(self.__class__) + " priority is " + str(priority)
 
     @property
     def priority(self):

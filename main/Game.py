@@ -7,7 +7,6 @@ from main.impl.UnitDrawer import UnitDrawer
 from main.Constants import SQUARE_SIZE
 from main.impl.FieldManager import FieldManager
 
-
 class Game(object):
     def __init__(self):
         self.__fpsClock = pygame.time.Clock()
@@ -15,11 +14,11 @@ class Game(object):
         self.__screen = None
         self.__eventManager = eventManager = EventManager(self)
 
-        self.__board = board = Board(size[0], size[1] - 1)
+        self.__board = board = Board(size[0], size[1] - 1, 1)
 
         self.registerEventListeners(self.__board)
         self.__drawers = self.registerDrawers(BoardDrawer(self, 10), GameDrawer(self, 9), UnitDrawer(self, 21))
-        self.__tickers = self.registerTickers(board, FieldManager(board, 11), eventManager)
+        self.__tickers = self.registerTickers(board, eventManager)
 
     def registerEventListeners(self, *listeners):
         for listener in listeners:
@@ -94,7 +93,7 @@ class Game(object):
     def checkPriorities(inputList):
         priorities = {}
         for element in inputList:
-            if  priorities.has_key(element.priority):
+            if element.priority > 0 and priorities.has_key(element.priority):
                 raise Exception("Priorities cannot be the same in {0} and {1} due to deadlock at generator"
                                 .format(str(element), str(priorities.get(element.priority))))
             priorities[element.priority] = element

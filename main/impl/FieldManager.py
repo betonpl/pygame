@@ -1,8 +1,12 @@
-from main.api.Tickable import Tickable
+from main.api.Eventable import Eventable
 
-class FieldManager(Tickable):
+class FieldManager(Eventable):
 
-    def __init__(self, board, priority):
-        Tickable.__init__(self, priority)
+    def __init__(self, board):
+        Eventable.__init__(self)
+        self.__fields = []
 
+    @property
+    def fields(self):
+        return self.__fields
 

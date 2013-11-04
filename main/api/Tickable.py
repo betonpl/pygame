@@ -5,7 +5,6 @@ class Tickable():
     def __init__(self, priority=None):
         if(priority != None):
             self.__priority = priority
-        print str(self.__class__) + " priority is " + str(priority)
 
     @property
     def priority(self):

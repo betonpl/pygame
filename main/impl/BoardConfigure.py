@@ -17,13 +17,13 @@ class BoardConfigure(object):
 
     def init(self):
         board = self.board
-        
+
         orangePlayer = Player("orange")
         board.addPlayer(orangePlayer)
         board.addField(Field(2, 0, Warrior(orangePlayer)))
         board.addField(Field(1, 1, Defender(orangePlayer)))
         board.addField(Field(0, 2, Balanced(orangePlayer)))
-        
+
         bluePlayer = Player("blue")
         board.addPlayer(bluePlayer)
         board.addField(Field(18, 9, Warrior(bluePlayer)))
