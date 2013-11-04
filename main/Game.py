@@ -5,7 +5,6 @@ from main.impl.GameDrawer import GameDrawer
 from main.impl.EventManager import EventManager
 from main.impl.UnitDrawer import UnitDrawer
 from main.Constants import SQUARE_SIZE
-from main.impl.FieldManager import FieldManager
 from main.impl.ControlDrawer import ControlDrawer
 from main.impl.Control import Control
 
@@ -16,12 +15,12 @@ class Game(object):
         self.__screen = None
         self.__eventManager = eventManager = EventManager(self)
 
-        self.__board = board = Board(size[0], size[1] - 1, 1)
-        self.__control = Control();        
+        self.__board = board = Board(size[0], size[1] - 1, priority=1)
+        self.__control = control = Control(board)
 
-        self.registerEventListeners(board,self.__control)
+        self.registerEventListeners(board, control)
         self.__drawers = self.registerDrawers(BoardDrawer(self, 10), GameDrawer(self, 9), UnitDrawer(self, 21), ControlDrawer(self, 19))
-        self.__tickers = self.registerTickers(board, eventManager)
+        self.__tickers = self.registerTickers(board, eventManager, board.fieldManager)
 
     def registerEventListeners(self, *listeners):
         for listener in listeners:
@@ -105,7 +104,7 @@ class Game(object):
     @staticmethod
     def game_exit():
         exit()
-        
+
 if __name__ == '__main__':
     game = Game()
     game.loop()

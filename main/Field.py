@@ -2,10 +2,10 @@ from math import copysign, floor
 
 class Field:
 
-    def __init__(self, x, y, content):
+    def __init__(self, x, y, unit):
         self._x = x
         self._y = y
-        self._content = content
+        self._unit = unit
 
     @property
     def x(self):
@@ -16,8 +16,8 @@ class Field:
         return self._y
 
     @property
-    def content(self):
-        return self._content
+    def unit(self):
+        return self._unit
 
     @property
     def pos(self):

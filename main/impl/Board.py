@@ -12,10 +12,10 @@ class Board(Tickable, Eventable):
         Eventable.__init__(self)
         self.__size = dict(width=width, height=height)
         self.__players = []
-        self.__selected = None
+
         self.__currentPlayer = None
         self.__currentHover = None
-        self.__fieldManager = FieldManager(self)
+        self.__fieldManager = FieldManager(self, priority + 1)
         BoardConfigure(self)
 
     @property
@@ -42,18 +42,18 @@ class Board(Tickable, Eventable):
     def currentPlayer(self):
         return self.__currentPlayer
 
+    @property
+    def selected(self):
+        return self.__fieldManager.selected
+
+    @property
+    def fieldManager(self):
+        return self.__fieldManager
+
     @currentPlayer.setter
     def currentPlayer(self, value):
         if len(self.players) > 0 and value in self.players:
             self.__currentPlayer = value
-
-    @property
-    def selected(self):
-        return self.__selected
-
-    @selected.setter
-    def selected(self, value):
-        self.__selected = value
 
     def addPlayer(self, player):
         self.__players.append(player)
@@ -64,11 +64,9 @@ class Board(Tickable, Eventable):
     def afterEventManagerSet(self):
         self.eventManager.register(None, self, EventManager.HOVERABLE)
         self.eventManager.register(None, self, EventManager.CLICKABLE)
+        self.eventManager.register(None, self.__fieldManager, EventManager.CLICKABLE)
 
     def click(self, pos):
-        field = self.__fieldManager.getFieldAtPos(pos)
-        if(field != None and field.content.owner == self.currentPlayer):
-            self.selected = field
         pass
 
     def tick(self):

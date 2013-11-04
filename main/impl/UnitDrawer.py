@@ -13,8 +13,8 @@ class UnitDrawer(Drawable):
 
         # # MZI ## potrzebna pozycja
         for field in self.game.board.fields:
-            if field.content.isAlive():
-                self.drawUnit(imageResources, field.content, field.pos)
+            if field.unit.isAlive():
+                self.drawUnit(imageResources, field.unit, field.pos)
 
     def drawUnit(self, imageResources, unit, pos):
         ownerName = unit.owner.name
