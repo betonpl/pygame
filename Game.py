@@ -58,7 +58,7 @@ class Game(object):
         pygame.init()
         pixelSize = self.size[0] * SQUARE_SIZE, self.size[1] * SQUARE_SIZE
         self.screen = pygame.display.set_mode(pixelSize, pygame.DOUBLEBUF)
-
+        pygame.display.set_caption("PyGame")
     def loop(self):
         self.initPyGame()
         while self.__eventManager.tick():
